@@ -67,6 +67,13 @@ public class Board {
       }
   }
 
+  //report method
+  // should return board (as a String?)
+  // should return steps taken by each agent (use agent.getSteps())
+  // should return amount food consumed by each agent (can just use rvalue for that)
+  // should return optimal steps for agents (x - x, y - y, no path finding, screw it)
+
+
   public boolean finished() {
     for (Agent agent : this.agents) {
       int[] pos = agent.getPos();

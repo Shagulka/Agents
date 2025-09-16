@@ -7,12 +7,15 @@ public class Agent {
     int id;
     int rvalue;
     boolean done;
+    int steps;
     public Agent(int id, int x, int y, float[] prob) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.prob = prob;
         this.done = false;
+        this.rvalue = 0;
+        this.steps = 0;
     }
     public int[] getPos() {
         int[] pos = {x, y};
@@ -20,6 +23,7 @@ public class Agent {
     }
     public int[] move(){
         if (!done) {
+        steps += 1;
         float rand = (float)Math.random();
         prevX = x;
         prevY = y;
@@ -49,11 +53,16 @@ public class Agent {
         rvalue += val;
     }
     public void revert(){
+        steps -= 1;
         x = prevX;
         y = prevY;
     }
 
     public void finish() {
         this.done = true;
+    }
+
+    public int getSteps() {
+        return this.steps;
     }
 }
