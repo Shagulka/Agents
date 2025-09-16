@@ -49,23 +49,22 @@ public class Board {
   }
 
   public void move_agents() {
-    for (int i = 0; i < this.agents.length; i++) {
-      boolean food = false;
-      int[] pos = agents[i].move();
-      if (this.board[pos[0]][pos[1]] == '$') {
-        food = true;
+      for (Agent agent : this.agents) {
+          boolean food = false;
+          int[] pos = agent.move();
+          if (this.board[pos[0]][pos[1]] == '$') {
+              food = true;
+          }   if (this.board[pos[0]][pos[1]] == 'O' || this.board[pos[0]][pos[1]] == 'I') {
+              agent.revert();
+          }
+          this.board[pos[0]][pos[1]] = 'I';
+          if (food) {
+              agent.addRvalue(5);
+          }
+          if (this.board[pos[0]][pos[1]] == 'F') {
+              agent.finish();
+          }
       }
-      if (this.board[pos[0]][pos[1]] == 'O' || this.board[pos[0]][pos[1]] == 'I') {
-        agents[i].revert();
-      }
-      this.board[pos[0]][pos[1]] = 'I';
-      if (food) {
-        agents[i].addRvalue(5);
-      }
-      if (this.board[pos[0]][pos[1]] == 'F') {
-        agents[i].finish();
-      }
-    }
   }
 
   public boolean finished() {
