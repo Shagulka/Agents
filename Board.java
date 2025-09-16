@@ -1,8 +1,11 @@
+import java.util.Random;
+
 public class Board {
   private char[][] board;
   private Agent[] agents;
 
-  public Board() {
+  public Board(float[][] probs) {
+    int n = probs.length;
     char[][] board = {
       {'O','O','O','O','O','O',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O','O','O','O','O','O'},
       {'O',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O'},
@@ -21,7 +24,7 @@ public class Board {
       {' ',' ','O','O',' ',' ',' ',' ','O','O','O',' ',' ',' ','O','O','O',' ',' ',' ',' ','O','O',' ',' '},
       {' ',' ','O','O',' ',' ',' ',' ','O','O','O','O',' ','O','O','O','O',' ',' ',' ',' ','O','O',' ',' '},
       {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-      {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','I',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+      {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
       {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
       {'O',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O'},
       {'O',' ','O','O','O','$',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O','O','O',' ','O'},
@@ -31,5 +34,34 @@ public class Board {
       {'O','O','O','O','O','O',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O','O','O','O','O','O'}
     };
     this.board = board;
+    this.agents = new Agent[n];
+    Random rand = new Random();
+    for (int i = 0; i < n; i++) {
+      int x = rand.nextInt(26);
+      int y = rand.nextInt(26);
+      while (board[x][y] != 'O') {
+        x = rand.nextInt(26);
+        y = rand.nextInt(26);
+      }
+      this.agents[i] = new Agent(i, x, y, probs[i]);
+      this.board[x][y] = 'I';
+    }
+  }
+
+  public void move_agents() {
+    for (int i = 0; i < this.agents.length; i++) {
+      boolean food = false;
+      int[] pos = agents[i].move();
+      if (this.board[pos[0]][pos[1]] == '$') {
+        food = true;
+      }
+      if (this.board[pos[0]][pos[1]] == 'O' || this.board[pos[0]][pos[1]] == 'I') {
+        agents[i].revert();
+      }
+      this.board[pos[0]][pos[1]] = 'I';
+      if (food) {
+        agent.addRvalue(5);
+      }
+    }
   }
 }
