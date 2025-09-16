@@ -8,6 +8,7 @@ public class Agent {
     int rvalue;
     boolean done;
     int steps;
+
     public Agent(int id, int x, int y, float[] prob) {
         this.id = id;
         this.x = x;
@@ -25,48 +26,24 @@ public class Agent {
 
     public int[] move() {
         if (!done) {
-        steps += 1;
-        float rand = (float)Math.random();
-        prevX = x;
-        prevY = y;
-        if(rand < prob[0]){
-            if(x > 0){
-                y -= 1;
-            }
-        } else if(rand < prob[0] + prob[1]){
-            if(x < 24){
-                y += 1;
-            }
-        } else if(rand < prob[0] + prob[1] + prob[2]){
-            if(y > 0){
-                x -= 1;
-            }
-        } else {
-            if(y < 24){
-                x += 1;
-            }
-        }
-        int[] pos = {x, y};
-        return pos;
-    }
-    return new int[] {x,y};
+            steps += 1;
             float rand = (float)Math.random();
             prevX = x;
             prevY = y;
-            if(rand < prob[0]) {
-                if (x > 0) {
+            if(rand < prob[0]){
+                if(x > 0){
                     y -= 1;
                 }
-            } else if (rand < prob[0] + prob[1]) {
-                if (x < 24) {
+            } else if(rand < prob[0] + prob[1]){
+                if(x < 24){
                     y += 1;
                 }
-            } else if (rand < prob[0] + prob[1] + prob[2]) {
-                if (y > 0) {
+            } else if(rand < prob[0] + prob[1] + prob[2]){
+                if(y > 0){
                     x -= 1;
                 }
             } else {
-                if (y < 24) {
+                if(y < 24){
                     x += 1;
                 }
             }
