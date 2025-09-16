@@ -6,7 +6,7 @@ public class Board {
 
   public Board(float[][] probs) {
     int n = probs.length;
-    char[][] board = {
+    this.board = new char[][] {
       {'O','O','O','O','O','O',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O','O','O','O','O','O'},
       {'O',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O'},
       {'O',' ',' ','O','O',' ',' ',' ','O','O',' ','O','O','O',' ','O','O',' ',' ',' ','O','O',' ',' ','O'},
@@ -33,7 +33,6 @@ public class Board {
       {'O','$',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','$','$','O'},
       {'O','O','O','O','O','O',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O','O','O','O','O','O'}
     };
-    this.board = board;
     this.agents = new Agent[n];
     Random rand = new Random();
     for (int i = 0; i < n; i++) {
@@ -51,18 +50,21 @@ public class Board {
   public void move_agents() {
       for (Agent agent : this.agents) {
           boolean food = false;
+          int[] og_pos = agent.getPos();
           int[] pos = agent.move();
           if (this.board[pos[0]][pos[1]] == '$') {
               food = true;
           }   if (this.board[pos[0]][pos[1]] == 'O' || this.board[pos[0]][pos[1]] == 'I') {
               agent.revert();
           }
-          this.board[pos[0]][pos[1]] = 'I';
+          if (this.board[pos[0]][pos[1]] == 'F') {
+            agent.finish();
+          } else {
+            this.board[pos[0]][pos[1]] = 'I';
+          }
+          this.board[og_pos[0]][og_pos[1]] = ' ';
           if (food) {
               agent.addRvalue(5);
-          }
-          if (this.board[pos[0]][pos[1]] == 'F') {
-              agent.finish();
           }
       }
   }
