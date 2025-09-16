@@ -14,7 +14,7 @@ public class Board {
       {'O',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','$',' ',' ',' ','O'},
       {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
       {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-      {' ',' ','O','O',' ',' ',' ',' ','O','O','O','O',' ','O','O','O','O',' ',' ',' ',' ','O','O',' ',' '},
+      {' ',' ','O','O',' ',' ',' ',' ','O','O','O','O','F','O','O','O','O',' ',' ',' ',' ','O','O',' ',' '},
       {' ',' ','O','O',' ',' ',' ',' ','O','O','O',' ',' ',' ','O','O','O',' ',' ',' ',' ','O','O',' ',' '},
       {' ',' ',' ',' ',' ',' ',' ',' ','O','O',' ',' ',' ',' ','$','O','O','$',' ',' ',' ',' ','$',' ',' '},
       {'$',' ','O','O',' ',' ',' ',' ','O',' ',' ',' ',' ',' ',' ',' ','O',' ',' ',' ',' ','O','O',' ',' '},
@@ -39,7 +39,7 @@ public class Board {
     for (int i = 0; i < n; i++) {
       int x = rand.nextInt(26);
       int y = rand.nextInt(26);
-      while (board[x][y] != 'O') {
+      while (board[x][y] != 'O' && board[x][y] != 'F') {
         x = rand.nextInt(26);
         y = rand.nextInt(26);
       }
@@ -60,8 +60,21 @@ public class Board {
       }
       this.board[pos[0]][pos[1]] = 'I';
       if (food) {
-        agent.addRvalue(5);
+        agents[i].addRvalue(5);
+      }
+      if (this.board[pos[0]][pos[1]] == 'F') {
+        agents[i].finish();
       }
     }
+  }
+
+  public boolean finished() {
+    for (Agent agent : this.agents) {
+      int[] pos = agent.getPos();
+      if (!(this.board[pos[0]][pos[1]] == 'F')) {
+          return false;
+      }
+    }
+    return true;
   }
 }
