@@ -1,7 +1,7 @@
 public class Agent {
     float[] prob = {0,0,0,0};
-    int x;
-    int y;
+    public int x;
+    public int y;
     int prevX;
     int prevY;
     int id;
