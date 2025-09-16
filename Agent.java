@@ -1,7 +1,7 @@
 public class Agent {
     float[] prob = {0,0,0,0};
-    public int x;
-    public int y;
+    int x;
+    int y;
     int prevX;
     int prevY;
     int id;
@@ -22,19 +22,19 @@ public class Agent {
         prevY = y;
         if(rand < prob[0]){
             if(x > 0){
-                x -= 1;
+                y -= 1;
             }
         } else if(rand < prob[0] + prob[1]){
             if(x < 24){
-                x += 1;
+                y += 1;
             }
         } else if(rand < prob[0] + prob[1] + prob[2]){
             if(y > 0){
-                y -= 1;
+                x -= 1;
             }
         } else {
             if(y < 24){
-                y += 1;
+                x += 1;
             }
         }
         int[] pos = {x, y};
