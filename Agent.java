@@ -14,41 +14,45 @@ public class Agent {
         this.prob = prob;
         this.done = false;
     }
+
     public int[] getPos() {
         int[] pos = {x, y};
         return pos;
     }
-    public int[] move(){
+
+    public int[] move() {
         if (!done) {
-        float rand = (float)Math.random();
-        prevX = x;
-        prevY = y;
-        if(rand < prob[0]){
-            if(x > 0){
-                y -= 1;
+            float rand = (float)Math.random();
+            prevX = x;
+            prevY = y;
+            if(rand < prob[0]) {
+                if (x > 0) {
+                    y -= 1;
+                }
+            } else if (rand < prob[0] + prob[1]) {
+                if (x < 24) {
+                    y += 1;
+                }
+            } else if (rand < prob[0] + prob[1] + prob[2]) {
+                if (y > 0) {
+                    x -= 1;
+                }
+            } else {
+                if (y < 24) {
+                    x += 1;
+                }
             }
-        } else if(rand < prob[0] + prob[1]){
-            if(x < 24){
-                y += 1;
-            }
-        } else if(rand < prob[0] + prob[1] + prob[2]){
-            if(y > 0){
-                x -= 1;
-            }
-        } else {
-            if(y < 24){
-                x += 1;
-            }
+            int[] pos = {x, y};
+            return pos;
         }
-        int[] pos = {x, y};
-        return pos;
+        return new int[] {x,y};
     }
-    return new int[] {x,y};
-    }
-    public void addRvalue(int val){
+
+    public void addRvalue(int val) {
         rvalue += val;
     }
-    public void revert(){
+
+    public void revert() {
         x = prevX;
         y = prevY;
     }
