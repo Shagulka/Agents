@@ -8,6 +8,7 @@ public class Sim {
         for (int i = 0; i < 10; i++) {
             sims[i] = new Sim(probs);
         }
+        System.out.println("Test 1 complete");
         // Test 2
         float[][] probs2 = {
             {0.3f, 0.2f, 0.2f, 0.3f},

@@ -24,6 +24,14 @@ public class Agent {
         return pos;
     }
 
+    public int getRvalue() {
+        return this.rvalue;
+    }
+
+
+    public int getId() {
+        return this.id;
+    }
     public int[] move() {
         if (!done) {
             steps += 1;
@@ -31,19 +39,19 @@ public class Agent {
             prevX = x;
             prevY = y;
             if(rand < prob[0]){
-                if(x > 0){
+                if(y > 0){
                     y -= 1;
                 }
             } else if(rand < prob[0] + prob[1]){
-                if(x < 24){
+                if(y < 24){
                     y += 1;
                 }
             } else if(rand < prob[0] + prob[1] + prob[2]){
-                if(y > 0){
+                if(x > 0){
                     x -= 1;
                 }
             } else {
-                if(y < 24){
+                if(x < 24){
                     x += 1;
                 }
             }
@@ -66,6 +74,10 @@ public class Agent {
         this.done = true;
     }
 
+    public boolean isDone() {
+        return this.done;
+    }
+    
     public int getSteps() {
         return this.steps;
     }
