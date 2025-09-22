@@ -3,6 +3,7 @@ import java.util.Random;
 public class Board {
   private char[][] board;
   private Agent[] agents;
+  private int[][] startingPositions;
 
   public Board(float[][] probs) {
     int n = probs.length;
@@ -29,7 +30,7 @@ public class Board {
       {'O',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O'},
       {'O',' ','O','O','O','$',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O','O','O',' ','O'},
       {'O',' ','O','O','O',' ',' ',' ','O','O',' ','O',' ','O',' ','O','O',' ',' ',' ','O','O','O',' ','O'},
-      {'O',' ','F','O','O',' ',' ',' ','O','O',' ','O','O','O',' ','O','O',' ',' ',' ','O','O',' ',' ','O'},
+      {'O',' ',' ','O','O',' ',' ',' ','O','O',' ','O','O','O',' ','O','O','F',' ',' ','O','O',' ',' ','O'},
       {'O','$',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','$','$','O'},
       {'O','O','O','O','O','O',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','O','O','O','O','O','O'}
     };
@@ -38,12 +39,17 @@ public class Board {
     for (int i = 0; i < n; i++) {
       int x = rand.nextInt(25);
       int y = rand.nextInt(25);
-      while (board[x][y] == 'O' && board[x][y] == 'F') {
+      while (board[x][y] == 'O' || board[x][y] == 'F') {
         x = rand.nextInt(25);
         y = rand.nextInt(25);
       }
       this.agents[i] = new Agent(i, x, y, probs[i]);
       this.board[x][y] = 'I';
+    }
+    this.startingPositions = new int[n][2];
+    for (int i = 0; i < n; i++) {
+      this.startingPositions[i][0] = this.agents[i].getPos()[0];
+      this.startingPositions[i][1] = this.agents[i].getPos()[1];
     }
   }
 
@@ -80,18 +86,46 @@ public class Board {
   // should return optimal steps for agents (x - x, y - y, no path finding, screw it)
   public String report() {
       StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < 25; i++) {
-          for (int j = 0; j < 25; j++) {
-              sb.append(this.board[i][j]);
-          }
-          sb.append("\n");
-      }
+      // for (int i = 0; i < 25; i++) {
+      //     for (int j = 0; j < 25; j++) {
+      //         sb.append(this.board[i][j]);
+      //     }
+      //     sb.append("\n");
+      // }
       sb.append("\n");
       for (Agent agent : this.agents) {
           int[] pos = agent.getPos();
           sb.append("Agent " + agent.getId() + ": Position (" + pos[0] + ", " + pos[1] + "), Steps taken: " + agent.getSteps() + ", Food consumed: " + agent.getRvalue() + "\n");
       }
+      for (int i = 0; i < this.agents.length; i++) {
+          int[] pos = this.agents[i].getPos();
+          int[] start = this.startingPositions[i];
+          int optimalSteps = Math.abs(pos[0] - start[0]) + Math.abs(pos[1] - start[1]);
+          sb.append("Agent " + i + ": Optimal steps from start to current position: " + optimalSteps + "\n");
+      }
       return sb.toString();
+  }
+
+  public void print_board() {
+      for (int i = 0; i < 25; i++) {
+          for (int j = 0; j < 25; j++) {
+              System.out.print(this.board[i][j]);
+          }
+          System.out.println();
+      }
+  }
+
+  public void print_report() {
+      
+      System.out.println(this.report());
+  }
+
+  public int[] getSteps() {
+      int[] steps = new int[this.agents.length];
+      for (int i = 0; i < this.agents.length; i++) {
+          steps[i] = this.agents[i].getSteps();
+      }
+      return steps;
   }
 
 
@@ -99,11 +133,9 @@ public class Board {
     for (Agent agent : this.agents) {
       int[] pos = agent.getPos();
       ///print position of each agent
-      StringBuilder sb = new StringBuilder();
-      sb.append("Agent " + agent.getId() + ": Position (" + pos[0
-] + ", " + pos[1] + ")\n");
-    
-      System.out.println(sb.toString());
+      //StringBuilder sb = new StringBuilder();
+      //sb.append("Agent " + agent.getId() + ": Position (" + pos[0] + ", " + pos[1] + ")\n")
+      //System.out.println(sb.toString());
       if (!(agent.isDone())) {
           return false;
       }

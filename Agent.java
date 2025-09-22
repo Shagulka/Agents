@@ -36,6 +36,7 @@ public class Agent {
         if (!done) {
             steps += 1;
             float rand = (float)Math.random();
+            //System.out.println("Agent " + id + " at (" + x + ", " + y + ") with rand: " + rand);
             prevX = x;
             prevY = y;
             if(rand < prob[0]){
@@ -56,7 +57,9 @@ public class Agent {
                 }
             }
             int[] pos = {x, y};
+            //System.out.println("Agent " + id + " moved to (" + x + ", " + y + ")");
             return pos;
+            
         }
         return new int[] {x,y};
     }
